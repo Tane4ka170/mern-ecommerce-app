@@ -14,7 +14,7 @@ const BookSchema = new mongoose.Schema({
   stock: { type: Number, require: true, default: 0 },
   isFeatured: { type: Boolean, default: false },
   isOnSale: { type: Boolean, default: false },
-  discountPercent: { type: Boolean, default: false },
+  discountPercent: { type: String, default: "0%" },
   coverImage: { type: String },
   category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
 });
