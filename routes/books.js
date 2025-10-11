@@ -1,8 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const Book = require("../models/BookSchema");
+const multer = require("multer");
 
-router.post("/createBook", async (req, res) => {
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./images");
+  },
+  filename: function (req, file, cb) {
+    const filename = Date.now() + "-" + file.fieldname;
+    cb(null, filename);
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
+router.post("/createBook", upload.single("coverImage"), async (req, res) => {
   try {
     const {
       title,
@@ -11,14 +26,13 @@ router.post("/createBook", async (req, res) => {
       price,
       stock,
       isFeatured,
-      isOnSale,
-      discountPercent,
-      coverImage,
       category,
+      discountPercent,
+      isOnSale,
     } = req.body;
 
-    if (!title || !author || !description || !price || !stock || !category) {
-      return res.status(400).json({ message: "Please fill all the fields" });
+    if (!title || !author || !description || !price || !stock) {
+      return res.status(400).json({ error: "All fields are required" });
     }
 
     const newBook = new Book({
@@ -30,16 +44,14 @@ router.post("/createBook", async (req, res) => {
       isFeatured,
       isOnSale,
       discountPercent,
-      coverImage,
       category,
+      coverImage: req.file?.filename,
     });
 
     await newBook.save();
-
-    return res.status(201).json({
-      message: "Book created successfully",
-      newBook,
-    });
+    res
+      .status(201)
+      .json({ message: "Book created successfully", book: newBook });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
