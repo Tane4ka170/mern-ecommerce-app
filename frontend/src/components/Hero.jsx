@@ -41,13 +41,13 @@ const Hero = ({ deviceType }) => {
       dotListClass="custom-dot-list-style"
       itemClass="carousel-item-padding-40-px"
     >
-      <div className="relative h-[70vh] md:h-[80vh]">
+      <div className="relative w-full min-h-[260px] h-[55vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh]">
         <img src="/1.png" alt="item1" />
       </div>
-      <div className="relative h-[70vh] md:h-[80vh]">
+      <div className="relative w-full min-h-[260px] h-[55vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh]">
         <img src="/2.png" alt="item2" />
       </div>
-      <div className="relative h-[70vh] md:h-[80vh]">
+      <div className="relative w-full min-h-[260px] h-[55vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh]">
         <img src="/3.png" alt="item3" />
       </div>
     </Carousel>
